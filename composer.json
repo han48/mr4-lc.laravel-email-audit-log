@@ -1,26 +1,27 @@
 {
-    "name": "djokicpn/laravel-email-audit-log",
+    "name": "mr4-lc/laravel-email-audit-log",
     "description": "This Service provider will monitor all emails that has been sent out of your system. Sent emails will be stored in email_audit_log table",
     "type": "library",
+    "version": "0.0.1",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Djokicpn\\LaravelEmailAuditLog\\": "src/"
+            "Mr4Lc\\LaravelEmailAuditLog\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "djokicpn",
-            "email": "djokic_kg@hotmail.com"
+            "name": "Mr4",
+            "email": "zzz4everzzz@live.co.uk"
         }
     ],
     "extra": {
         "laravel": {
             "providers": [
-                "Djokicpn\\LaravelEmailAuditLog\\EmailAuditServiceProvider"
+                "Mr4Lc\\LaravelEmailAuditLog\\EmailAuditServiceProvider"
             ],
             "aliases": {
-                "EmailAudit": "Djokicpn\\LaravelEmailAuditLog\\Models\\EmailAudit"
+                "EmailAudit": "Mr4Lc\\LaravelEmailAuditLog\\Models\\EmailAudit"
             }
         }
     },

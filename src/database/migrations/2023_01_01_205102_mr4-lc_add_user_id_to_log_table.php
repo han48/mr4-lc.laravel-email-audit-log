@@ -16,7 +16,6 @@ return new class extends Migration
         try {
             Schema::table('email_audit_log', function (Blueprint $table) {
                 $table->unsignedBigInteger('user_id')->nullable();
-                $table->foreign('user_id')->references('id')->on('users')->onCascade('delete');
             });
         } catch (\Exception $e) {
             return "Column already exists";
@@ -30,7 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropForeign(['user_id']);
         Schema::dropColumns(['user_id']);
     }
 };

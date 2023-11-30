@@ -1,8 +1,8 @@
 <?php
 
-namespace Djokicpn\LaravelEmailAuditLog\Listeners;
+namespace Mr4Lc\LaravelEmailAuditLog\Listeners;
 
-use Djokicpn\LaravelEmailAuditLog\Models\EmailAudit;
+use Mr4Lc\LaravelEmailAuditLog\Models\EmailAudit;
 use Illuminate\Mail\Events\MessageSent;
 
 class EmailHasBeenSentListener
@@ -12,13 +12,13 @@ class EmailHasBeenSentListener
         $subject        = $event->message->getSubject();
         $toArr          = $this->parseAddresses($event->message->getTo());
         $ccArr          = $this->parseAddresses($event->message->getCc());
-        $from           = $event->message->getFrom()[0]->getAddress();
+        $fromArr        = $this->parseAddresses($event->message->getFrom());
         $body           = $this->parseBodyText($event->message->getTextBody());
         $user           = auth()->id() ?? NULL;
 
         EmailAudit::create([
             'user_id'   => $user,
-            'from'      => $from,
+            'from'      => json_encode($fromArr),
             'to'        => json_encode($toArr),
             'cc'        => $ccArr ? json_encode($ccArr) : NULL,
             'subject'   => $subject,
@@ -31,8 +31,12 @@ class EmailHasBeenSentListener
     private function parseAddresses(array $array): array
     {
         $parsed = [];
-        foreach($array as $address) {
-            $parsed[] = $address->getAddress();
+        foreach($array as $key => $address) {
+            if (isset($address) && method_exists($address, 'getAddress')) {
+                $parsed[] = $address->getAddress();
+            } else {
+                $parsed[] = $key;
+            }
         }
         return $parsed;
     }

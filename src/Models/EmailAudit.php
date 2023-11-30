@@ -1,6 +1,6 @@
 <?php
 
-namespace Djokicpn\LaravelEmailAuditLog\Models;
+namespace Mr4Lc\LaravelEmailAuditLog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
