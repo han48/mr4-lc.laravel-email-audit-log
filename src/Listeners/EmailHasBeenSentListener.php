@@ -13,7 +13,7 @@ class EmailHasBeenSentListener
         $toArr          = $this->parseAddresses($event->message->getTo());
         $ccArr          = $this->parseAddresses($event->message->getCc());
         $fromArr        = $this->parseAddresses($event->message->getFrom());
-        $body           = $this->parseBodyText($event->message->getTextBody());
+        $body           = $this->parseBodyText($event->message->getBody());
         $user           = auth()->id() ?? NULL;
 
         EmailAudit::create([
@@ -28,14 +28,16 @@ class EmailHasBeenSentListener
         return false;
     }
 
-    private function parseAddresses(array $array): array
+    private function parseAddresses($array): array
     {
         $parsed = [];
-        foreach($array as $key => $address) {
-            if (isset($address) && method_exists($address, 'getAddress')) {
-                $parsed[] = $address->getAddress();
-            } else {
-                $parsed[] = $key;
+        if (isset($array) && is_array($array)) {
+            foreach($array as $key => $address) {
+                if (isset($address) && method_exists($address, 'getAddress')) {
+                    $parsed[] = $address->getAddress();
+                } else {
+                    $parsed[] = $key;
+                }
             }
         }
         return $parsed;
