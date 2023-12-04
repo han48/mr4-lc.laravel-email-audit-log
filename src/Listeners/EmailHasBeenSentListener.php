@@ -31,20 +31,28 @@ class EmailHasBeenSentListener
     private function parseAddresses($array): array
     {
         $parsed = [];
-        if (isset($array) && is_array($array)) {
-            foreach($array as $key => $address) {
-                if (isset($address) && method_exists($address, 'getAddress')) {
-                    $parsed[] = $address->getAddress();
-                } else {
-                    $parsed[] = $key;
+        try {
+            if (isset($array) && is_array($array)) {
+                foreach($array as $key => $address) {
+                    if (isset($address) && method_exists($address, 'getAddress')) {
+                        $parsed[] = $address->getAddress();
+                    } else {
+                        $parsed[] = $key;
+                    }
                 }
             }
+        } catch (\Exception $ex) {
+            $parsed[] = $ex->getMessage();
         }
         return $parsed;
     }
 
     private function parseBodyText($body): string
     {
-        return preg_replace('~[\r\n]+~', '<br>', $body);
+        try {
+            return preg_replace('~[\r\n]+~', '<br>', $body);
+        } catch (\Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 }
