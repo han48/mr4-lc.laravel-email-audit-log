@@ -53,7 +53,7 @@ class EmailHasBeenSentListener
             if (is_string($body) || is_array($body)) {
                 return preg_replace('~[\r\n]+~', '<br>', $body);
             } else {
-                return "preg_replace(): Argument #3 (subject) must be of type array|string, ". gettype($body) ." given";
+                return json_encode($body);
             }
         } catch (\Exception $ex) {
             return $ex->getMessage();
